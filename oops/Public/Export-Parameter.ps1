@@ -61,11 +61,13 @@
         )) {
             # Output commands, parameters, and notable attributes to JSON file
             Try {
-                Write-Verbose "Exporting state to $OutputFolder\param.json"
+                $RP = (Resolve-Path $OutputFolder).Path
+                Write-Verbose "Exporting state to $RP\param.json"
+
                 # Just needs depth 3 for sure, but ¯\_(ツ)_/¯
                 $List | ConvertTo-Json -Depth 5 | Out-File $OutputFolder\param.json -ErrorAction Stop
             } Catch {
-                throw "Unable to create '$OutputFolder\param.json'. Do you need admin rights?"
+                throw "Unable to create '$RP\param.json'. Do you need admin rights?"
             }
         } #WhatIf
     } #END
