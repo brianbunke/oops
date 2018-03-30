@@ -66,20 +66,20 @@ function Compare-Parameter {
                 $CommandName = $Recorded.Command
                 $CurrentCommand = $Current | Where-Object Command -eq $CommandName
 
-                It "Code still contains command $CommandName" {
+                It "$CommandName from JSON still exists in code" {
                     $CommandName | Should -BeIn $Current.Command
                 }
 
                 ForEach ($Param in $Recorded.Parameters) {
                     $CurrentParam = $CurrentCommand.Parameters | Where-Object Name -eq $Param.Name
 
-                    ForEach ($Prop in $PropList) {
-                        It "-$($Param.Name) property $Prop - recorded matches actual" {
+                    It "$CommandName -$($Param.Name) - recorded matches actual" {
+                        ForEach ($Prop in $PropList) {
                             $Param.$Prop | Should -Be $CurrentParam.$Prop
                         }
                     }
-                }
+                } #ForEach
             } #ForEach
-        }
-    }
+        } #Describe
+    } #END
 }
