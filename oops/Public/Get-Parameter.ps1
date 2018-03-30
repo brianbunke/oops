@@ -1,12 +1,23 @@
-﻿# TODO: Ctrl + H "DemoModule"
-    # OutputFolder hardcoded
-    # Write help
-    # Remove $List ?
+﻿function Get-Parameter {
+    <#
+    .SYNOPSIS
+    Extracts useful parameter info from the provided command(s).
 
-function Get-Parameter {
+    .DESCRIPTION
+    Expects <CommandInfo> objects, most commonly from Get-Command.
+
+    Intended to output each command, all user-created parameters,
+    and parameter settings that would be a breaking change if modified.
+
+    .EXAMPLE
+    Get-Command -Module oops | Get-Parameter
+    For all public commands in module oops, output non-default parameters
+    and relevant parameter settings from command info and help.
+    #>
     [CmdletBinding()]
     param (
-        # Command (cmdlet/function/etc.) to read
+        # Command(s) to extract relevant info from
+        # Most easily supplied by piping in Get-Command
         [Parameter(
             Mandatory = $true,
             ValueFromPipeline = $true
