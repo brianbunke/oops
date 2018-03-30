@@ -1,17 +1,17 @@
-﻿Remove-Module DemoModule -ErrorAction SilentlyContinue -Force
-Import-Module $PSScriptRoot\..\DemoModule.psd1
+﻿Remove-Module oops -ErrorAction SilentlyContinue -Force
+Import-Module $PSScriptRoot\..\oops\oops.psd1
 
-Describe 'Test DemoModule' {
-    $GCM = Get-Command -Module DemoModule
+Describe 'Module-level oops tests' {
+    $GCM = Get-Command -Module oops
 
-    It 'Contains two commands' {
-        # This is a test of a test of a test, my friends
-        $GCM.Count | Should -Be 2
+    # A basic test before getting meta
+    It 'Contains four commands' {
+        $GCM.Count | Should -Be 4
     }
 
-    ForEach ($Command in $GCM) {
-        Get-ModuleHelp $Command
+    # Ensure each command has proper help coverage
+    $GCM | Assert-ModuleHelp
 
-        $Command | Get-Parameter | Compare-Parameter C:\Users\brian.bunke\Desktop\param.json
-    }
+    # Check for breaking changes in command parameters
+    $GCM | Get-Parameter | Assert-Parameter "$PSScriptRoot\param.json"
 }
