@@ -13,6 +13,9 @@
     Get-Command -Module oops | Get-Parameter
     For all public commands in module oops, output non-default parameters
     and relevant parameter settings from command info and help.
+
+    .LINK
+    https://github.com/brianbunke/oops
     #>
     [CmdletBinding()]
     param (

@@ -21,6 +21,9 @@
     Get-Command -Module oops | Get-Parameter | Export-Parameter -OutputFolder C:\
     Collects command and parameter info for module oops.
     Converts data to JSON and saves in `param.json` at the root of the C:\ drive.
+
+    .LINK
+    https://github.com/brianbunke/oops
     #>
     [CmdletBinding(
         SupportsShouldProcess = $true,

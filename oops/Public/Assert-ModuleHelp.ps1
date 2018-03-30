@@ -22,6 +22,9 @@
     All of the thanks to June Blender (@juneb_get_help) for the precursor to this work,
     a *.Help.Tests.ps1 file, in 2016. This function slightly modifies some checks and
     makes things slightly more generic, but the original skeleton remains intact.
+
+    .LINK
+    https://github.com/brianbunke/oops
     #>
     [CmdletBinding()]
     param (

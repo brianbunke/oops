@@ -27,6 +27,9 @@
     Assert-Parameter looks for `oops.json` at the root of the C:\ drive,
     then compares the piped info to the known-good version stored in JSON.
     Pester tests will fail if any known breaking changes are found.
+
+    .LINK
+    https://github.com/brianbunke/oops
     #>
     [CmdletBinding()]
     param (
