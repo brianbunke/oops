@@ -1,0 +1,53 @@
+[
+    {
+        "Command":  "Assert-ModuleHelp",
+        "Parameters":  {
+                           "Name":  "Command",
+                           "Type":  "System.Management.Automation.CommandInfo[]",
+                           "Position":  0,
+                           "ValueFromPipeline":  true
+                       }
+    },
+    {
+        "Command":  "Assert-Parameter",
+        "Parameters":  [
+                           {
+                               "Name":  "Json",
+                               "Type":  "System.Object",
+                               "Position":  0
+                           },
+                           {
+                               "Name":  "CmdParam",
+                               "Type":  "System.Management.Automation.PSObject[]",
+                               "Position":  1,
+                               "ValueFromPipeline":  true
+                           }
+                       ]
+    },
+    {
+        "Command":  "Export-Parameter",
+        "Parameters":  [
+                           {
+                               "Name":  "OutputFolder",
+                               "Type":  "System.Object",
+                               "Position":  0,
+                               "Mandatory":  false
+                           },
+                           {
+                               "Name":  "CmdParam",
+                               "Type":  "System.Management.Automation.PSObject[]",
+                               "Position":  1,
+                               "ValueFromPipeline":  true
+                           }
+                       ]
+    },
+    {
+        "Command":  "Get-Parameter",
+        "Parameters":  {
+                           "Name":  "Command",
+                           "Type":  "System.Management.Automation.CommandInfo[]",
+                           "Position":  0,
+                           "ValueFromPipeline":  true
+                       }
+    }
+]
