@@ -4,7 +4,7 @@
     # Write function description
     # Redo example
 
-function Get-ModuleHelp {
+function Assert-ModuleHelp {
     <#
     .SYNOPSIS
     Checks for common command help issues for the supplied command.

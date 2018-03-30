@@ -1,37 +1,48 @@
-﻿# TODO: Change name
-    # Param name ok?
-    # Param type ok?
-    # Write function description
-    # Redo description
-    # Redo example
-
-function Compare-Parameter {
+﻿function Assert-Parameter {
     <#
     .SYNOPSIS
     Compares stored state of a command's parameters against actual state.
 
     .DESCRIPTION
-    Runs Pester tests against a command to check for common issues, like:
-    - Help contains a Synopsis and Description
-    - Help contains example code and explanations
-    - Help exists for all non-default parameters
-    - Help does not list non-existent parameters
+    Ingests stored JSON of a previous known-good state.
+
+    Compares current code (supplied command parameter info) to the JSON,
+    running Pester tests to assert no known breaking changes have occurred.
+
+    Pester tests assert:
+    - Any command stored in JSON should still exist in the current code
+    - Any command parameter stored in JSON hasn't changed,
+        because changing a stored parameter would be a known breaking change
 
     .EXAMPLE
-    Get-ModuleHelp Get-Date
-    Runs Pester tests to ensure the help for Get-Date isn't missing anything obvious.
+    Get-Command -Module oops | Get-Parameter | Assert-Parameter
+    Collects command and parameter info for module oops, piping into Assert-Parameter.
+    Assert-Parameter looks for `param.json` in the current directory,
+    then compares the piped info to the known-good version stored in JSON.
+    Pester tests will fail if any known breaking changes are found.
+    
+    .EXAMPLE
+    Get-Command -Module oops | Get-Parameter | Assert-Parameter -Json C:\oops.json
+    Collects command and parameter info for module oops, piping into Assert-Parameter.
+    Assert-Parameter looks for `oops.json` at the root of the C:\ drive,
+    then compares the piped info to the known-good version stored in JSON.
+    Pester tests will fail if any known breaking changes are found.
     #>
     [CmdletBinding()]
     param (
+        # JSON file previously created by Export-Parameter
+        # Typically meant to be stored with a module's tests
+        # Defaults to `param.json` in the current directory
         [Parameter(Mandatory = $true)]
         [ValidateScript({(Get-Item $_).Extension -eq '.json'})]
-        $Json,
+        $Json = ".\param.json",
 
+        # Accepts command/parameter object output from Get-Parameter
         [Parameter(
             Mandatory = $true,
             ValueFromPipeline = $true
         )]
-        $Command
+        [PSCustomObject[]]$CmdParam
     )
 
     BEGIN {
@@ -40,8 +51,9 @@ function Compare-Parameter {
     }
 
     PROCESS {
-        ForEach ($c in $Command) {
-            # Append the command into $List
+        ForEach ($c in $CmdParam) {
+            Write-Verbose "Assert-Parameter intaking $($c.Command)"
+            # Append the command into $Current
             [void]$Current.Add($c)
         }
     }
@@ -78,8 +90,8 @@ function Compare-Parameter {
                             $Param.$Prop | Should -Be $CurrentParam.$Prop
                         }
                     }
-                } #ForEach
-            } #ForEach
+                } #ForEach $Param
+            } #ForEach $Recorded
         } #Describe
     } #END
 }
