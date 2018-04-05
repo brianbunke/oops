@@ -19,11 +19,10 @@ function Get-DefaultParameter {
         # Create an advanced function that supports ShouldProcess
         # (this includes parameters WhatIf and Confirm)
         function Dummy {
-            [CmdletBinding(
-                SupportsShouldProcess = $true,
-                ConfirmImpact = 'Medium'
-            )]
+            [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'Medium')]
             param ()
+            # Include ShouldProcess just to pass the default PSScriptAnalyzer rule
+            If ($PSCmdlet.ShouldProcess("Target","Operation")) {<# Empty -WhatIf operation #>}
         }
     }
 
