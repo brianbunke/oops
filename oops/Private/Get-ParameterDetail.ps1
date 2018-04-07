@@ -28,7 +28,7 @@
             Position  = $p.Attributes.Position
         }
         # Only record the below properties if modification would be a breaking change
-        If (-not ($v = $p.Attributes.Mandatory)) {
+        If (($v = $p.Attributes.Mandatory) -eq $false) {
             $obj | Add-Member -MemberType NoteProperty -Value $v -Name 'Mandatory'
         }
         If ($v = $p.Attributes.ValueFromPipeline) {
