@@ -36,7 +36,6 @@
         # JSON file previously created by Export-Parameter
         # Typically meant to be stored with a module's tests
         # Defaults to `param.json` in the current directory
-        [Parameter(Mandatory = $true)]
         [ValidateScript({(Get-Item $_).Extension -eq '.json'})]
         $Json = ".\param.json",
 
